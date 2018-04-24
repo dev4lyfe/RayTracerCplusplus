@@ -1,0 +1,2 @@
+# RayTracerCplusplus
+for each pixel cast ray from eye through a pixel and check for intersection with an object if intersects object calculate color by   doing lighting calculations (cast ray to lights to check for shadow and then use lighting formula from real time rendering book)   cast rays for reflection and refraction (this is effectively recursively doing the same thing as the initial cast) which gets blending into the color bases off of object properties
