@@ -1,0 +1,28 @@
+RayTracing
+
+You put a camera point in space and you have a screen which corresponds to what you see.
+
+You run a line from your Camera point C with unit vector ray R through each pixel on the screen.
+
+You will test each ray against all of the objects in the scene - and find the points at which it hits.
+
+You want to measure the distance d from the pixel to the intersection point, and chooses the closest intersection point.
+
+Color each point.
+
+Imagine point P with ray R and point C with radius r which represents a sphere.
+
+You can imagine distance d as distance from point C to line, you can calculate this with a dot product (using trig) 
+and if d is less than radius r, then the ray intersects the sphere in two places which you can determine also using trig
+
+If you choose intersection point on object and trace from it to light source, and something is in the way from it to light source
+you can drop the specular and diffuse value on it, leaving only the ambient times the base color (auto shadows) (Turner Whitted discovered this)
+These are shadow rays
+
+For reflection, you can do similar thing. If something is reflecting, cast a ray out from that object to see if it hits other
+objects, then if it hits the object, you add (a bit of) color from the object to the reflective surface.
+
+You can get an index of refraction, calculate a refractive ray, and calculate a ray to the inside.
+
+He wrote the most famous paper ever in computer graphics, where he killed the problems of shadow, reflection, and refraction. But
+he solved this by just adding a ton of rays.
