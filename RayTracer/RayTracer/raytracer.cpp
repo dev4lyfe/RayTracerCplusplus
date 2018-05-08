@@ -19,21 +19,22 @@ public:
 };
 
 class Sphere {
-	Vec c;		//center
-	double r;	//radius
-	Sphere(Vec i, double j) { c = i, r = j; }
+	Vec center;
+	double radius;	//radius
+	Sphere(Vec i, double j) { center = i, radius = j; }
 	bool intersect(Ray ray, double &t) {
-		Vec o = ray.o;
-		Vec d = ray.d;
+		Vec O = ray.o;
+		Vec D = ray.d;
 		//ray from pixel position to sphere center
-		Vec oc = o - c;
+		Vec L = center - O;
 		//find projection of oc onto d to get leg of triangle form from pixel to sphere center
-		double leg = dot(oc, d);
-		if (leg < 0) { return false; }
+		double tca = dot(L, D);
+		//if it is negative, the vectors point in opposite directions and there is no intersection
+		if (tca < 0) { return false; }
 		//get the length of the other leg of the triangle from center out to ray path using pythagoras thrm
-		
-		double disc = b*b - 4 * c;
-		if (disc < 0) return false;
+		double d = sqrt(dot(L, L)*tca*tca);
+		if (d < 0) return false;
+
 	}
 };
 
