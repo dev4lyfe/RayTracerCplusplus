@@ -1,4 +1,4 @@
-RayTracing
+﻿RayTracing
 
 You put a camera point in space and you have a screen which corresponds to what you see.
 
@@ -26,3 +26,36 @@ You can get an index of refraction, calculate a refractive ray, and calculate a 
 
 He wrote the most famous paper ever in computer graphics, where he killed the problems of shadow, reflection, and refraction. But
 he solved this by just adding a ton of rays.
+
+//ASSIGNMENT NOTES
+
+﻿Write out a file that is the image
+
+look at an object and write out the values
+
+Have an origin point that is where the camera is
+
+have an angle from which the camera looks out into the world
+
+draw from object to camera
+
+determine if object is in view frustrom?
+
+for each pixel cast ray from eye through a pixel and check for intersection with an object
+
+if intersects object calculate color by
+  doing lighting calculations (cast ray to lights to check for shadow and then use lighting formula from real time rendering book)
+
+cast rays for reflection and refraction (this is effectively recursively doing the same thing as the initial cast) which gets blending into the color bases off of object properties
+
+start with a sphere - a point with a radius
+
+z test
+
+png asci grey scale
+
+fingure out architecture 
+later on can hold more shapes
+thing about ability to texture 
+think about transparency and translucency 
+

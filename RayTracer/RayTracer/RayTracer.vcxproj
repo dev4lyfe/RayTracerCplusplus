@@ -110,6 +110,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="PixelDrawer.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="PixelDrawer.cpp" />
+    <ClCompile Include="raytracer.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Research.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
