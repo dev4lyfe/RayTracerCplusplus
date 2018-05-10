@@ -6,8 +6,11 @@ struct Vec {
 	Vec() { x = y = z = 0; }
 	Vec(double a, double b, double c) { x = a, y = b, z = c; }
 	Vec operator + (const Vec& v) const { return Vec(x + v.x, y + v.y, z + v.z); }
-
 	Vec operator - (const Vec& v) { return Vec(x - v.x, y - v.y, z - v.z); }
+	Vec operator * (double d) { return Vec(x*d, y*d, z*d);}
+	Vec operator / (double d) { return Vec(x/d, y/d, z/d);}
+	Vec GetNormalizedVector {double magnitude = sqrt(x*x+y*y+z*z); return Vec(x/magnitude, y/magnitude, z/magnitude);}
+
 };
 
 double dot(Vec x, Vec y) {return (x.x * y.x + x.y * y.y);}
@@ -22,13 +25,25 @@ struct Color {
 	double r, g, b;
 	Color() {r = g = b = 0; }
 	Color(double i, double j, double k) { r=i,g=j,b=k; }
+	Color operator * (double d) {return Color(r*d, g*d, b*d);}
 };
 
-struct Sphere {
+abstract class Shape {
+protected:
+	Vec Center;
+public:
+	bool intersect(Ray ray, double &t);
+	Vec GetNormal(Vec point);
+};
+
+class Sphere {
+public:
 	Vec center;
 	double radius;	//radius
 	Sphere(Vec i, double j) { center = i, radius = j; }
 	
+	GetNormal(Vec pointOfIntersection){(center-pointOfIntersection)/radius;}
+
 	//pass in t as intersection distance
 	bool intersect(Ray ray, double &t) {
 		Vec O = ray.origin;
@@ -40,13 +55,13 @@ struct Sphere {
 		//if it is negative, the vectors point in opposite directions and there is no intersection
 		if (projection < 0) { return false; }
 	
-		//get the length of the other leg of the triangle from center out to ray path using pythagoras thrm
-		double oppositeLeg2 = dot(originToSphere, originToSphere) - projection*projection;
+		//get the length squared of the other leg of the triangle from center out to ray path using pythagoras thrm
+		double oppositeLegSq = dot(originToSphere, originToSphere) - projection*projection;
 
 		//if leg is bigger than radius, there is no intersection
-		if (oppositeLeg2 > radius * radius) { return false; }
+		if (oppositeLegSq > radius * radius) { return false; }
 		//find the intersection point with trig using radius of sphere as hypotenuse 
-		double adjacentLegInSphere = sqrt(radius*radius - oppositeLeg2);
+		double adjacentLegInSphere = sqrt(radius*radius - oppositeLegSq);
 
 		float intersectdistance1 = projection - adjacentLegInSphere;
 		float intersectdistance2 = projection + adjacentLegInSphere;
