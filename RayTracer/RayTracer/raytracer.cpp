@@ -10,10 +10,9 @@ struct Vec {
 	Vec operator - (const Vec& v) { return Vec(x - v.x, y - v.y, z - v.z); }
 };
 
-double dot(Vec x, Vec y) {return (x.x * y.x + y.x * y.y);}
+double dot(Vec x, Vec y) {return (x.x * y.x + x.y * y.y);}
 
-class Ray {
-public:
+struct Ray {
 	Vec origin;
 	Vec direction;
 	Ray(Vec i, Vec j) { origin = i, direction = j; }
@@ -29,25 +28,28 @@ struct Sphere {
 	Vec center;
 	double radius;	//radius
 	Sphere(Vec i, double j) { center = i, radius = j; }
+	
+	//pass in t as intersection distance
 	bool intersect(Ray ray, double &t) {
 		Vec O = ray.origin;
 		Vec D = ray.direction;
 		//ray from pixel position to sphere center
-		Vec L = center - O;
+		Vec originToSphere = center - O;
 		//find projection of oc onto d to get leg of triangle from pixel toward sphere
-		double adjacentLegFromOrigin = dot(L, D);
+		double projection = dot(originToSphere, D);
 		//if it is negative, the vectors point in opposite directions and there is no intersection
-		if (adjacentLegFromOrigin < 0) { return false; }
+		if (projection < 0) { return false; }
 	
 		//get the length of the other leg of the triangle from center out to ray path using pythagoras thrm
-		double oppositeLeg2 = dot(L, L) - adjacentLegFromOrigin*adjacentLegFromOrigin;
+		double oppositeLeg2 = dot(originToSphere, originToSphere) - projection*projection;
+
 		//if leg is bigger than radius, there is no intersection
 		if (oppositeLeg2 > radius * radius) { return false; }
 		//find the intersection point with trig using radius of sphere as hypotenuse 
 		double adjacentLegInSphere = sqrt(radius*radius - oppositeLeg2);
 
-		float intersectdistance1 = adjacentLegFromOrigin - adjacentLegInSphere;
-		float intersectdistance2 = adjacentLegFromOrigin + adjacentLegInSphere;
+		float intersectdistance1 = projection - adjacentLegInSphere;
+		float intersectdistance2 = projection + adjacentLegInSphere;
 		return true;
 	}
 };
@@ -59,7 +61,7 @@ int main()
 	const int W = 500;
 	const int H = 500;
 
-	Color White = Color(1, 1, 1);
+	Color White = Color(255, 255, 255);
 	Color Black = Color(0, 0, 0);
 
 	Sphere sphere(Vec(W / 2, H / 2, 50), 20);
